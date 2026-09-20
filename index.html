@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Real-time multiplayer Tic-Tac-Toe powered by WebSockets."
+    >
+
+    <title>XO Arena — Multiplayer Tic-Tac-Toe</title>
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+</head>
+
+
+<body>
+
+    <!-- Background -->
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="grid-background"></div>
+
+
+    <div class="app-shell">
+
+
+        <!-- =========================================
+             NAVBAR
+        ========================================== -->
+
+        <header class="navbar">
+
+            <div class="brand">
+
+                <div class="brand-mark">
+                    <span>X</span>
+                    <span>O</span>
+                </div>
+
+                <div class="brand-content">
+
+                    <h1>XO Arena</h1>
+
+                    <span>
+                        Real-time multiplayer
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="nav-right">
+
+                <div
+                    class="connection-pill"
+                    id="connectionPill"
+                >
+
+                    <span
+                        class="connection-dot"
+                        id="connectionDot"
+                    ></span>
+
+                    <span id="connectionText">
+                        Connecting
+                    </span>
+
+                </div>
+
+
+                <div class="nav-badge">
+                    WEBSOCKET
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- =========================================
+             LOBBY
+        ========================================== -->
+
+        <main
+            class="lobby-view"
+            id="lobby"
+        >
+
+            <section class="hero">
+
+                <div class="hero-badge">
+
+                    <span class="pulse"></span>
+
+                    LIVE MULTIPLAYER
+
+                </div>
+
+
+                <h2>
+                    Challenge a friend.
+                    <span>Make your move.</span>
+                </h2>
+
+
+                <p>
+                    Create a private game room and play
+                    Tic-Tac-Toe in real time using
+                    WebSocket technology.
+                </p>
+
+            </section>
+
+
+
+            <section class="lobby-grid">
+
+
+                <!-- CREATE -->
+
+                <div class="lobby-card create-card">
+
+                    <div class="card-icon blue-icon">
+                        +
+                    </div>
+
+                    <div class="card-label">
+                        NEW MATCH
+                    </div>
+
+                    <h3>
+                        Create a room
+                    </h3>
+
+                    <p>
+                        Start a private match and invite
+                        another player using a secure room code.
+                    </p>
+
+
+                    <button
+                        class="main-button"
+                        id="createRoomBtn"
+                    >
+
+                        <span>
+                            Create Game
+                        </span>
+
+                        <span class="button-arrow">
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+
+                <!-- JOIN -->
+
+                <div class="lobby-card join-card">
+
+                    <div class="card-icon orange-icon">
+                        ↗
+                    </div>
+
+                    <div class="card-label">
+                        JOIN MATCH
+                    </div>
+
+                    <h3>
+                        Enter a room
+                    </h3>
+
+                    <p>
+                        Have a room code? Enter it below
+                        to join your friend's game.
+                    </p>
+
+
+                    <div class="room-input-wrapper">
+
+                        <input
+                            id="roomInput"
+                            type="text"
+                            maxlength="6"
+                            placeholder="ENTER CODE"
+                            autocomplete="off"
+                            spellcheck="false"
+                        >
+
+                        <span>
+                            6 CHARACTERS
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="join-button"
+                        id="joinRoomBtn"
+                    >
+                        Join Game
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- FEATURES -->
+
+            <section class="technology-section">
+
+                <div class="section-title">
+
+                    <span>
+                        BUILT FOR REAL-TIME
+                    </span>
+
+                    <h3>
+                        How the platform works
+                    </h3>
+
+                </div>
+
+
+                <div class="technology-grid">
+
+
+                    <div class="technology-item">
+
+                        <div class="tech-number">
+                            01
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                WebSocket Sync
+                            </strong>
+
+                            <p>
+                                Moves are broadcast instantly
+                                between connected players.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="technology-item">
+
+                        <div class="tech-number">
+                            02
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Server Authority
+                            </strong>
+
+                            <p>
+                                Game state and move validation
+                                are controlled by the server.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="technology-item">
+
+                        <div class="tech-number">
+                            03
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Room Isolation
+                            </strong>
+
+                            <p>
+                                Each match runs independently
+                                inside its own game room.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+
+        <!-- =========================================
+             GAME VIEW
+        ========================================== -->
+
+        <main
+            class="game-view hidden"
+            id="gameSection"
+        >
+
+
+            <!-- GAME HEADER -->
+
+            <section class="game-header">
+
+                <div>
+
+                    <div class="page-label">
+                        LIVE MATCH
+                    </div>
+
+                    <h2>
+                        Tic-Tac-Toe Arena
+                    </h2>
+
+                </div>
+
+
+                <div class="room-control">
+
+                    <div class="room-meta">
+
+                        <span>
+                            ROOM
+                        </span>
+
+                        <strong id="roomCode">
+                            ------
+                        </strong>
+
+                    </div>
+
+
+                    <button
+                        class="copy-room"
+                        id="copyRoomBtn"
+                    >
+                        <span>□</span>
+                        Copy
+                    </button>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- PLAYER BAR -->
+
+            <section class="players-row">
+
+
+                <!-- PLAYER X -->
+
+                <div
+                    class="player-card"
+                    id="playerX"
+                >
+
+                    <div class="player-avatar x-avatar">
+                        X
+                    </div>
+
+
+                    <div class="player-info">
+
+                        <span>
+                            PLAYER 01
+                        </span>
+
+                        <strong>
+                            Player X
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        class="player-state"
+                        id="playerXState"
+                    >
+                        WAITING
+                    </div>
+
+                </div>
+
+
+
+                <!-- VS -->
+
+                <div class="versus">
+
+                    <span>
+                        VS
+                    </span>
+
+                </div>
+
+
+
+                <!-- PLAYER O -->
+
+                <div
+                    class="player-card"
+                    id="playerO"
+                >
+
+                    <div class="player-avatar o-avatar">
+                        O
+                    </div>
+
+
+                    <div class="player-info">
+
+                        <span>
+                            PLAYER 02
+                        </span>
+
+                        <strong>
+                            Player O
+                        </strong>
+
+                    </div>
+
+
+                    <div
+                        class="player-state"
+                        id="playerOState"
+                    >
+                        WAITING
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- GAME AREA -->
+
+            <section class="game-layout">
+
+
+                <!-- LEFT SIDE -->
+
+                <aside class="game-sidebar">
+
+
+                    <div class="side-card">
+
+                        <div class="side-title">
+                            MATCH STATUS
+                        </div>
+
+
+                        <div class="live-status">
+
+                            <span
+                                class="live-indicator"
+                            ></span>
+
+                            <strong id="gameStatus">
+                                Waiting
+                            </strong>
+
+                        </div>
+
+
+                        <p id="gameMessage">
+                            Waiting for another player
+                            to join the room.
+                        </p>
+
+                    </div>
+
+
+
+                    <div class="side-card">
+
+                        <div class="side-title">
+                            MATCH DETAILS
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Moves
+                            </span>
+
+                            <strong id="moveCount">
+                                0 / 9
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Current Turn
+                            </span>
+
+                            <strong id="turnDisplay">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-row">
+
+                            <span>
+                                Your Symbol
+                            </span>
+
+                            <strong id="mySymbol">
+                                —
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="side-card security-card">
+
+                        <div class="security-icon">
+                            ✓
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Server Validated
+                            </strong>
+
+                            <p>
+                                Every move is checked
+                                before being broadcast.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </aside>
+
+
+
+                <!-- BOARD -->
+
+                <div class="board-section">
+
+
+                    <div class="turn-banner">
+
+                        <div
+                            class="turn-icon"
+                            id="turnIcon"
+                        >
+                            —
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                CURRENT TURN
+                            </span>
+
+                            <strong id="turnText">
+                                Waiting for players
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div
+                        class="board"
+                        id="board"
+                    >
+
+                        <button
+                            class="cell"
+                            data-index="0"
+                            aria-label="Cell 1"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="1"
+                            aria-label="Cell 2"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="2"
+                            aria-label="Cell 3"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="3"
+                            aria-label="Cell 4"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="4"
+                            aria-label="Cell 5"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="5"
+                            aria-label="Cell 6"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="6"
+                            aria-label="Cell 7"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="7"
+                            aria-label="Cell 8"
+                        ></button>
+
+                        <button
+                            class="cell"
+                            data-index="8"
+                            aria-label="Cell 9"
+                        ></button>
+
+                    </div>
+
+
+
+                    <!-- RESULT -->
+
+                    <div
+                        class="result-overlay hidden"
+                        id="resultPanel"
+                    >
+
+                        <div
+                            class="result-symbol"
+                            id="resultIcon"
+                        >
+                            🏆
+                        </div>
+
+                        <div class="result-label">
+                            MATCH COMPLETE
+                        </div>
+
+                        <h3 id="resultTitle">
+                            You Win
+                        </h3>
+
+                        <p id="resultText">
+                            Congratulations!
+                        </p>
+
+                        <button
+                            class="main-button result-button"
+                            id="rematchBtn"
+                        >
+                            Request Rematch
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+
+            <!-- GAME FOOTER -->
+
+            <section class="game-footer">
+
+                <button
+                    class="leave-button"
+                    id="newGameBtn"
+                >
+                    ← Leave Match
+                </button>
+
+
+                <div class="footer-tech">
+
+                    <span class="mini-dot"></span>
+
+                    REAL-TIME
+
+                    <span>•</span>
+
+                    SOCKET.IO
+
+                    <span>•</span>
+
+                    SECURE ROOM
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+
+        <!-- FOOTER -->
+
+        <footer>
+
+            <span>
+                XO Arena
+            </span>
+
+            <span>
+                •
+            </span>
+
+            <span>
+                Built with Node.js · Express · Socket.io
+            </span>
+
+        </footer>
+
+    </div>
+
+
+
+    <!-- TOAST -->
+
+    <div
+        class="toast"
+        id="toast"
+    >
+
+        <span class="toast-icon">
+            ✓
+        </span>
+
+        <span id="toastMessage">
+            Notification
+        </span>
+
+    </div>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
